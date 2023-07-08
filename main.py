@@ -1,28 +1,109 @@
 import streamlit as st
-import subpages as ui
-from datetime import datetime
+from datetime import datetime as dt
 
-if __name__ == '__main__':
-    # Set config to always start with wide layout
-    st.set_page_config(layout="wide", page_title="My Diary")
 
-    # Main title
-    st.title('Today is the {} welcome to your digital diary!'
-             .format(datetime.today().strftime('%d.%m.%Y')))
+# Config & initialisation
+st.set_page_config(layout="wide", page_title="My Diary")
+today = {"date": dt.today(),
+         "activity": [],
+         "ratings": {},
+         "comment": {},
+         }
 
-    # Split application into tabs
-    activities, rate, write = st.tabs(
-        ["Specify your activities", "Rate your day", "Wanna mention something else?"])
+# Main title
+st.title('Today is the {} welcome to your digital diary'
+         .format(dt.today().strftime('%d.%m.%Y')))
 
-    # Import tabs content/functionalities
-    with activities:
-        # Holds information about the daily activities
-        ui.activities_page()
+# Split application into tabs
+activities, rate, write = st.tabs(
+    ["What did you do today?", "Rate your day!", "Wanna mention something?"])
 
-    with rate:
-        # Used to judge the day
-        ui.rate_page()
+# Import tabs content/functionalities
+with activities:
+    # Holds information about the daily activities
+    activity_name = st.text_input(
+        'Activity', key='activity_name', value='Activity name')
+    activity_start = st.time_input(
+        'Start time', key='activity_start', value=dt.now())
+    activity_end = st.time_input(
+        'End time', key='activity_end', value=dt.now())
 
-    with write:
-        # Used to specify additional information
-        ui.write_page()
+    # Checkbox to indicate if activity is ongoing
+    ongoing = st.checkbox('Ongoing activity')
+
+    # Tag your activity
+    activity_tag = st.selectbox('Tag your activity',
+                                ['Study', 'Work',
+                                 'Gaming', 'Free time',
+                                 'Sport', 'Housekeeping',
+                                 'Other'], index=6)
+
+    # Spacing to make it look nicer
+    st.markdown('<br/>', unsafe_allow_html=True)
+
+    # Button to add a new activity
+    if st.button("Add activity"):
+        if ongoing:
+            today["activity"].append(
+                {"activity": activity_name,
+                 "start": activity_start,
+                 "end": None,
+                 "tag": activity_tag})
+        else:
+            today["activity"].append(
+                {"activity": activity_name,
+                 "start": activity_start,
+                 "end": activity_end,
+                 "tag": activity_tag})
+
+    # Add space at the end
+    for _ in range(6):
+        st.markdown('<br/>', unsafe_allow_html=True)
+
+with rate:
+    # Sliders and diagram
+    col1, col2 = st.columns(2)
+
+    # Sliders used to judge different activities
+    with col1:
+        # Subtitle and description
+        st.header("How would you judge your...")
+
+        # Sliders
+        focus = st.slider("ability to stay focused during study or work.", 1, 5, 3)
+        starting_mood = st.slider("mood at the start of the day.", 1, 5, 3)
+        ending_mood = st.slider("mood at the end of the day.", 1, 5, 3)
+        satisfaction = st.slider("satisfaction with what you have achieved today.", 1, 5, 3)
+
+    # Create the pie chart in the second column.
+    with col2:
+        focus_comment = st.text_input("Anything you wanna mention?")
+
+    # Subtitle and description
+    st.header("Tag your day using these!")
+    # Checkboxes for tagging the day.
+    tags = st.multiselect(
+        "Tag your day!", label_visibility='collapsed', help="Select all that apply",
+        options=['productive', 'relaxed',
+                 'meeting', 'university',
+                 'friends', 'colleagues', 'family', 'partner',
+                 'happy', 'sad', 'exited', 'tired', 'depressed',
+                 'junk food', 'busy',
+                 'hot', 'cold', 'rainy'], key='tags')
+
+    # Add space at the end
+    st.markdown('<br/>', unsafe_allow_html=True)
+
+with write:
+    st.header("Is there anything else you wanna mention or comment on?")
+    comment = st.text_area("Write here!", label_visibility='hidden', height=300, max_chars=500, key='comment')
+
+    # Add space at the end
+    for _ in range(8):
+        st.markdown('<br/>', unsafe_allow_html=True)
+
+# Subtitle and description
+st.header("Save your data once you are done!")
+# Button to save the data
+if st.button("Save"):
+    pass
