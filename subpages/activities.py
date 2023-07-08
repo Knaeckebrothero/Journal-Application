@@ -3,13 +3,15 @@ import streamlit as st
 
 
 def activities_page() -> dict:
-    # Subtitle and description
-    st.header("How did you spend your day?")
     # Sliders and diagram
     col1, col2 = st.columns(2)
 
     # Sliders used to specify the amount of time spent on each activity.
     with col1:
+        # Subtitle and description
+        st.header("How did you spend your day?")
+
+        # Sliders
         sleep_hours = st.slider("Sleep", 0, 24, 8)
         study_hours = st.slider("Study", 0, 24, 4)
         work_hours = st.slider("Work", 0, 24, 4)
@@ -29,7 +31,7 @@ def activities_page() -> dict:
 
     # Create the pie chart in the second column.
     with col2:
-        fig1, ax1 = plt.subplots(figsize=(5, 3))
+        fig1, ax1 = plt.subplots(figsize=(4, 2))
 
         # Match streamlits dark theme.
         fig1.patch.set_facecolor('#0F1018')
@@ -41,7 +43,6 @@ def activities_page() -> dict:
         for text in ax1.texts:
             text.set_color('white')
 
-        st.markdown('<br/>', unsafe_allow_html=True)
         st.pyplot(fig1)
 
     # Subtitle and description
@@ -54,10 +55,4 @@ def activities_page() -> dict:
                  'friends', 'colleagues', 'family', 'partner',
                  'happy', 'sad', 'exited', 'tired', 'depressed',
                  'junk food', 'busy',
-                 'hot', 'cold', 'rainy'])
-
-    # Button to submit entries and go to the next page.
-    st.markdown('<br/><br/>', unsafe_allow_html=True)
-    if st.button("Submit"):
-        return dict(tags=tags, sleep_hours=sleep_hours, study_hours=study_hours,
-                    work_hours=work_hours, free_time_hours=free_time_hours)
+                 'hot', 'cold', 'rainy'], key=1)
