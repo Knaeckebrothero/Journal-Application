@@ -1,5 +1,5 @@
 import streamlit as st
-from datetime import datetime as dt
+from datetime import datetime as dt, time 
 
 
 # Config & initialisation
@@ -20,13 +20,13 @@ activities, rate, write, organize = st.tabs(
 
 # Import tabs content/functionalities
 with activities:
-    # Holds information about the daily activities
+    # Enter information about the activity
     activity_name = st.text_input(
-        'Activity', key='activity_name', value='Activity name')
+        'Activity', key='activity_name', value="", placeholder='What did you do today?')
     activity_start = st.time_input(
-        'Start time', key='activity_start', value=dt.now())
+        'Start time', key='activity_start', value=time(0,0), disabled=False)
     activity_end = st.time_input(
-        'End time', key='activity_end', value=dt.now())
+        'End time', key='activity_end', value=time(0,0), disabled=False)
 
     # Checkbox to indicate if activity is ongoing
     ongoing = st.checkbox('Ongoing activity')
@@ -55,10 +55,6 @@ with activities:
                  "start": activity_start,
                  "end": activity_end,
                  "tag": activity_tag})
-
-    # Add space at the end
-    for _ in range(6):
-        st.markdown('<br/>', unsafe_allow_html=True)
 
 with rate:
     # Sliders and diagram
