@@ -15,8 +15,8 @@ st.title('Today is the {} welcome to your digital diary'
          .format(dt.today().strftime('%d.%m.%Y')))
 
 # Split application into tabs
-activities, rate, write = st.tabs(
-    ["What did you do today?", "Rate your day!", "Wanna mention something?"])
+activities, rate, write, organize = st.tabs(
+    ["What did you do today?", "Rate your day!", "Wanna mention something?", "Manage your diary."])
 
 # Import tabs content/functionalities
 with activities:
@@ -102,8 +102,12 @@ with write:
     for _ in range(8):
         st.markdown('<br/>', unsafe_allow_html=True)
 
-# Subtitle and description
-st.header("Save your data once you are done!")
-# Button to save the data
-if st.button("Save"):
-    pass
+with organize:
+    # Save the day
+    if st.button("Save the day!"):
+        pass
+
+    # Select date for diary entry
+    today = st.text_input('If you want to change the date please do so, if not simply continue...', 
+                          value=dt.today().strftime('%d.%m.%Y'),
+                          max_chars=None, key=None, type='default')
