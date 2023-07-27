@@ -22,39 +22,29 @@ activities, rate, write, organize = st.tabs(
 with activities:
     # Enter information about the activity
     activity_name = st.text_input(
-        'Activity', key='activity_name', value="", placeholder='What did you do today?')
+        'Activity', key='activity_name', value="", placeholder='What did you do?')
     activity_start = st.time_input(
         'Start time', key='activity_start', value=time(0,0), disabled=False)
     activity_end = st.time_input(
         'End time', key='activity_end', value=time(0,0), disabled=False)
 
-    # Checkbox to indicate if activity is ongoing
-    ongoing = st.checkbox('Ongoing activity')
-
     # Tag your activity
     activity_tag = st.selectbox('Tag your activity',
-                                ['Study', 'Work',
-                                 'Gaming', 'Free time',
+                                ['Academic', 'Work', 'Personal',
+                                 'Relaxation', 'Free time', 'Social',
                                  'Sport', 'Housekeeping',
-                                 'Other'], index=6)
+                                 'Other'], index=8)
 
     # Spacing to make it look nicer
     st.markdown('<br/>', unsafe_allow_html=True)
 
     # Button to add a new activity
     if st.button("Add activity"):
-        if ongoing:
-            today["activity"].append(
-                {"activity": activity_name,
-                 "start": activity_start,
-                 "end": None,
-                 "tag": activity_tag})
-        else:
-            today["activity"].append(
-                {"activity": activity_name,
-                 "start": activity_start,
-                 "end": activity_end,
-                 "tag": activity_tag})
+        today["activity"].append(
+            {"activity": activity_name,
+                "start": activity_start,
+                "end": activity_end,
+                "tag": activity_tag})
 
 with rate:
     # Sliders and diagram
@@ -66,14 +56,22 @@ with rate:
         st.header("How would you judge your...")
 
         # Sliders
-        focus = st.slider("ability to stay focused during study or work.", 1, 5, 3)
+        focus = st.slider("ability to stay focused throughout the day.", 1, 5, 3)
         starting_mood = st.slider("mood at the start of the day.", 1, 5, 3)
         ending_mood = st.slider("mood at the end of the day.", 1, 5, 3)
         satisfaction = st.slider("satisfaction with what you have achieved today.", 1, 5, 3)
 
     # Create the pie chart in the second column.
     with col2:
-        focus_comment = st.text_input("Anything you wanna mention?")
+        # Subtitle and description
+        st.header("Anything you wanna mention?")
+
+        focus_comment = st.text_input("Did you feel stressed?", key='focus_comment')
+        st.markdown('<br/>', unsafe_allow_html=True)
+        start_mood_comment = st.text_input("What was responsible for this?", key='start_mood_comment')
+        end_mood_comment = st.text_input("What should i write here?", key='end_mood_comment', label_visibility = 'hidden')
+        st.markdown('<br/>', unsafe_allow_html=True)
+        satisfaction_comment = st.text_input("What would others say?", key='satisfaction_comment')
 
     # Subtitle and description
     st.header("Tag your day using these!")
