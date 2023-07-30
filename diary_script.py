@@ -1,17 +1,23 @@
 import streamlit as st
+import json
+import os
 from datetime import datetime as dt, time
 
 # Config & initialisation
 st.set_page_config(layout="wide", page_title="My Diary")
-today = {"date": dt.today(),
-         "activity": [],
-         "rating": {},
-         "comment": {},
-         }
+
+# Check if session state exists
+if 'today' not in st.session_state:
+    st.session_state.today = {"date": dt.today().strftime('%Y-%m-%d'),
+                              "changelog": [],
+                              "activity": [],
+                              "rating": {},
+                              "comment": {},
+                              }
 
 # Main title
 st.title('Today is the {} welcome to your digital diary'
-         .format(dt.today().strftime('%d.%m.%Y')))
+         .format(dt.strptime(st.session_state.today["date"], '%Y-%m-%d').strftime('%d.%m.%Y')))
 
 # Split application into tabs
 activities, rate, write, organize = st.tabs(
@@ -44,10 +50,10 @@ with activities:
 
     # Button to add a new activity
     if st.button("Add activity"):
-        today["activity"].append(
+        st.session_state.today["activity"].append(
             {"description": activity_description,
-             "start": activity_start,
-             "end": activity_end,
+             "start": activity_start.strftime('%H:%M:%S'),
+             "end": activity_end.strftime('%H:%M:%S'),
              "category": activity_category,
              "tags": activity_tags})
 
@@ -61,34 +67,35 @@ with rate:
         st.header("How would you judge your...")
 
         # Sliders
-        today["rating"]["focus"] = st.slider("ability to stay focused throughout the day.", 1, 5, 3)
-        today["rating"]["starting_mood"] = st.slider("mood at the start of the day.", 1, 5, 3)
-        today["rating"]["ending_mood"] = st.slider("mood at the end of the day.", 1, 5, 3)
-        today["rating"]["satisfaction"] = st.slider("satisfaction with what you have achieved today.", 1, 5, 3)
+        st.session_state.today["rating"]["focus"] = st.slider("ability to stay focused throughout the day.", 1, 5, 3)
+        st.session_state.today["rating"]["starting_mood"] = st.slider("mood at the start of the day.", 1, 5, 3)
+        st.session_state.today["rating"]["ending_mood"] = st.slider("mood at the end of the day.", 1, 5, 3)
+        st.session_state.today["rating"]["satisfaction"] = st.slider("satisfaction with what you have achieved today.",
+                                                                     1, 5, 3)
 
     # Create the pie chart in the second column.
     with col2:
         # Subtitle and description
         st.header("Anything you wanna mention?")
 
-        today["rating"]["focus_comment"] = st.text_input(
+        st.session_state.today["rating"]["focus_comment"] = st.text_input(
             "Did you feel stressed?", key='focus_comment')
 
         st.markdown('<br/>', unsafe_allow_html=True)
-        today["rating"]["start_mood_comment"] = st.text_input(
+        st.session_state.today["rating"]["start_mood_comment"] = st.text_input(
             "What was responsible for this?", key='start_mood_comment')
-        today["rating"]["end_mood_comment"] = st.text_input(
+        st.session_state.today["rating"]["end_mood_comment"] = st.text_input(
             "What should i write here?", key='end_mood_comment', label_visibility='hidden')
 
         st.markdown('<br/>', unsafe_allow_html=True)
-        today["rating"]["satisfaction_comment"] = st.text_input(
+        st.session_state.today["rating"]["satisfaction_comment"] = st.text_input(
             "What would others say?", key='satisfaction_comment')
 
     # Subtitle and description
     st.header("Tag your day using these!")
 
     # Checkboxes for tagging the day.
-    today["rating"]["tags"] = st.multiselect(
+    st.session_state.today["rating"]["tags"] = st.multiselect(
         "Tag your day!", label_visibility='collapsed', help="Select all that apply",
         options=['productive', 'relaxed', 'stressful', 'fun',
                  'friends', 'colleagues', 'family', 'partner',
@@ -98,15 +105,27 @@ with rate:
 
 with write:
     st.header("Is there anything else you wanna mention or comment on?")
-    today['comment'] = st.text_area(label="Write here!", label_visibility='hidden',
-                                    height=500, max_chars=1000, value="Heute habe ich")
+    st.session_state.today['comment'] = st.text_area(label="Write here!", label_visibility='hidden',
+                                                     height=500, max_chars=1000, value="Heute habe ich")
 
 with organize:
     # Save the day
     if st.button("Save the day!"):
-        pass
+        # Add a new entry to the changelog
+        st.session_state.today["changelog"].append(f"Day saved on {dt.now().strftime('%d-%m-%Y %H:%M:%S')}")
+
+        # Create the directory if it doesn't exist
+        if not os.path.exists('./entries/'):
+            os.makedirs('./entries/')
+
+        # Save the 'today' dictionary as a JSON file
+        filename = f"diary_{st.session_state.today['date'].replace('-', '')}.json"
+        with open('./entries/' + filename, 'w') as f:
+            json.dump(st.session_state.today, f)
+
+        st.success(f"Day saved as {filename}!")
 
     # Select date for diary entry
-    today = st.text_input('If you want to change the date please do so, if not simply continue...',
-                          value=dt.today().strftime('%d.%m.%Y'),
-                          max_chars=None, key=None, type='default')
+    st.session_state.today['date'] = st.date_input(
+        'If you want to change the date please do so, if not simply continue...',
+        value=dt.strptime(st.session_state.today['date'], '%Y-%m-%d')).strftime('%Y-%m-%d')
