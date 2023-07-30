@@ -56,6 +56,7 @@ with activities:
              "end": activity_end.strftime('%H:%M:%S'),
              "category": activity_category,
              "tags": activity_tags})
+        st.success("Activity added successfully!")
 
 with rate:
     # Sliders and diagram
@@ -67,11 +68,14 @@ with rate:
         st.header("How would you judge your...")
 
         # Sliders
-        st.session_state.today["rating"]["focus"] = st.slider("ability to stay focused throughout the day.", 1, 5, 3)
-        st.session_state.today["rating"]["starting_mood"] = st.slider("mood at the start of the day.", 1, 5, 3)
-        st.session_state.today["rating"]["ending_mood"] = st.slider("mood at the end of the day.", 1, 5, 3)
-        st.session_state.today["rating"]["satisfaction"] = st.slider("satisfaction with what you have achieved today.",
-                                                                     1, 5, 3)
+        st.session_state.today["rating"]["focus"] = st.slider(
+            "ability to stay focused throughout the day.", 1, 5, 3)
+        st.session_state.today["rating"]["starting_mood"] = st.slider(
+            "mood at the start of the day.", 1, 5, 3)
+        st.session_state.today["rating"]["ending_mood"] = st.slider(
+            "mood at the end of the day.", 1, 5, 3)
+        st.session_state.today["rating"]["satisfaction"] = st.slider(
+            "satisfaction with what you have achieved today.", 1, 5, 3)
 
     # Create the pie chart in the second column.
     with col2:
@@ -105,8 +109,9 @@ with rate:
 
 with write:
     st.header("Is there anything else you wanna mention or comment on?")
-    st.session_state.today['comment'] = st.text_area(label="Write here!", label_visibility='hidden',
-                                                     height=500, max_chars=1000, value="Heute habe ich")
+    st.session_state.today['comment'] = st.text_area(
+        label="Write here!", label_visibility='hidden',
+        height=500, max_chars=1000, value="Heute habe ich")
 
 with organize:
     # Save the day
