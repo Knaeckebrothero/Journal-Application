@@ -61,38 +61,40 @@ with rate:
         st.header("How would you judge your...")
 
         # Sliders
-        focus = st.slider("ability to stay focused throughout the day.", 1, 5, 3)
-        starting_mood = st.slider("mood at the start of the day.", 1, 5, 3)
-        ending_mood = st.slider("mood at the end of the day.", 1, 5, 3)
-        satisfaction = st.slider("satisfaction with what you have achieved today.", 1, 5, 3)
+        today["rating"]["focus"] = st.slider("ability to stay focused throughout the day.", 1, 5, 3)
+        today["rating"]["starting_mood"] = st.slider("mood at the start of the day.", 1, 5, 3)
+        today["rating"]["ending_mood"] = st.slider("mood at the end of the day.", 1, 5, 3)
+        today["rating"]["satisfaction"] = st.slider("satisfaction with what you have achieved today.", 1, 5, 3)
 
     # Create the pie chart in the second column.
     with col2:
         # Subtitle and description
         st.header("Anything you wanna mention?")
 
-        focus_comment = st.text_input("Did you feel stressed?", key='focus_comment')
+        today["rating"]["focus_comment"] = st.text_input(
+            "Did you feel stressed?", key='focus_comment')
+
         st.markdown('<br/>', unsafe_allow_html=True)
-        start_mood_comment = st.text_input("What was responsible for this?", key='start_mood_comment')
-        end_mood_comment = st.text_input("What should i write here?", key='end_mood_comment',
-                                         label_visibility='hidden')
+        today["rating"]["start_mood_comment"] = st.text_input(
+            "What was responsible for this?", key='start_mood_comment')
+        today["rating"]["end_mood_comment"] = st.text_input(
+            "What should i write here?", key='end_mood_comment', label_visibility='hidden')
+
         st.markdown('<br/>', unsafe_allow_html=True)
-        satisfaction_comment = st.text_input("What would others say?", key='satisfaction_comment')
+        today["rating"]["satisfaction_comment"] = st.text_input(
+            "What would others say?", key='satisfaction_comment')
 
     # Subtitle and description
     st.header("Tag your day using these!")
+
     # Checkboxes for tagging the day.
-    tags = st.multiselect(
+    today["rating"]["tags"] = st.multiselect(
         "Tag your day!", label_visibility='collapsed', help="Select all that apply",
-        options=['productive', 'relaxed',
-                 'meeting', 'university',
+        options=['productive', 'relaxed', 'stressful', 'fun',
                  'friends', 'colleagues', 'family', 'partner',
                  'happy', 'sad', 'exited', 'tired', 'depressed',
-                 'junk food', 'busy',
+                 'junk-food', 'thc', 'insomnia', 'dispute',
                  'hot', 'cold', 'rainy'], key='tags')
-
-    # Add space at the end
-    st.markdown('<br/>', unsafe_allow_html=True)
 
 with write:
     st.header("Is there anything else you wanna mention or comment on?")
