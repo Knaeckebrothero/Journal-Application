@@ -98,11 +98,8 @@ with rate:
 
 with write:
     st.header("Is there anything else you wanna mention or comment on?")
-    comment = st.text_area("Write here!", label_visibility='hidden', height=300, max_chars=500, key='comment')
-
-    # Add space at the end
-    for _ in range(8):
-        st.markdown('<br/>', unsafe_allow_html=True)
+    today['comment'] = st.text_area(label="Write here!", label_visibility='hidden',
+                                    height=500, max_chars=1000, value="Heute habe ich")
 
 with organize:
     # Save the day
