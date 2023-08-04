@@ -141,8 +141,8 @@ with (organize):
             f"Day saved on {dt.now().strftime('%d-%m-%Y %H:%M:%S')}")
 
         # Create the directory if it doesn't exist
-        if not os.path.exists('./entries/'):
-            os.makedirs('./entries/')
+        if not os.path.exists('tests/entries/'):
+            os.makedirs('tests/entries/')
 
         # Save the 'today' dictionary as a JSON file
         filename = f"diary_{st.session_state.today['date'].replace('-', '')}.json"
