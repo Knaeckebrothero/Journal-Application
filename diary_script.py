@@ -16,9 +16,10 @@ if 'today' not in st.session_state:
         # Initialize 'today' dictionary
         st.session_state.today = {"date": dt.today().strftime('%d-%m-%Y'),
                                   "changelog": [],
+                                  "important": [],
                                   "activity": [],
                                   "rating": {},
-                                  "comment": {},
+                                  "comment": None,
                                   }
 
 # Config & initialisation
@@ -37,7 +38,6 @@ activities, rate, write, organize = st.tabs(
      "Wanna mention something?",
      "Manage your diary's..."])
 
-# Import tabs content/functionalities
 with activities:
     # Specify how demanding the activity was.
     activity_category = st.selectbox('Tag based on cognitive demand',
@@ -77,6 +77,14 @@ with activities:
              "tags": activity_tags})
         st.success("Activity added successfully!")
 
+    # Spacing to make it look nicer
+    st.markdown('<br/><br/>', unsafe_allow_html=True)
+
+    important_habit = st.text_input(label='Keep track and test new stuff!',
+                                    placeholder='Could be anything like a habit or food supplements...')
+    if st.button("Mark today"):
+        st.session_state.today['important'].append(important_habit)
+
 with rate:
     # Sliders and diagram
     col1, col2 = st.columns(2)
@@ -96,7 +104,6 @@ with rate:
         st.session_state.today["rating"]["satisfaction"] = st.slider(
             "Satisfaction with what you have achieved today.", 1, 5, 3)
 
-    # Create the pie chart in the second column.
     with col2:
         # Subtitle and description
         st.header("Anything you wanna mention?")
@@ -131,7 +138,11 @@ with write:
     st.header("Is there anything else you wanna mention or comment on?")
     st.session_state.today['comment'] = st.text_area(
         label="Write here!", label_visibility='hidden',
-        height=500, max_chars=1000, value="Heute habe ich")
+        height=500, max_chars=1000, placeholder="Heute habe ich...")
+    if st.checkbox("Contains important information"):
+        st.session_state.today['important_comment'] = True
+    else:
+        st.session_state.today['important_comment'] = False
 
 with (organize):
     # Save the day
