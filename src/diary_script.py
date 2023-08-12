@@ -9,7 +9,7 @@ def load_day() -> str:
     # Load the day
     if 'date' in st.session_state is None:
         st.session_state.date = dt.today()
-    
+
     # Create the directory if it doesn't exist
     if not os.path.exists('./entries/'):
         os.makedirs('./entries/')
@@ -22,7 +22,6 @@ def load_day() -> str:
     if not os.path.exists(filepath):
         with open(filepath, 'w') as f:
             json.dump({"date": dt.today().strftime('%d-%m-%Y'),
-                       "changelog": [],
                        "activity": [],
                        "rating": {},
                        "comment": None,
@@ -31,6 +30,7 @@ def load_day() -> str:
                        }, f)
             f.close()
     return filepath
+
 
 def save_day():
     # Save the day
@@ -54,7 +54,7 @@ with diary_container:
         'Today is the {} welcome to your digital diary'.format(
             dt.strptime(st.session_state.date,
                         '%d-%m-%Y').strftime('%d.%m.%Y')))
-    
+
     # Columns for changing the date and saving the day
     col1, col2 = st.columns([1, 1])
     st.session_state.date = col1.date_input(
@@ -78,5 +78,5 @@ with rate:
 with write:
     write_page.write()
 
-# Save the day
+# Save the day after every run
 save_day()
