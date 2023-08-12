@@ -6,32 +6,43 @@ from pages import activities_page, rate_page, write_page
 
 
 def load_day() -> str:
+    # Load the day
+    if 'date' in st.session_state is None:
+        st.session_state.date = dt.today()
+    
     # Create the directory if it doesn't exist
     if not os.path.exists('./entries/'):
         os.makedirs('./entries/')
 
-    filename = f"diary_{st.session_state.today.strftime('%d%m%Y')}.json"
+    # Load directory
+    filename = f"diary_{st.session_state.date.strftime('%d%m%Y')}.json"
     filepath = './entries/' + filename
+
+    # Create the file if it doesn't exist
     if not os.path.exists(filepath):
         with open(filepath, 'w') as f:
             json.dump({"date": dt.today().strftime('%d-%m-%Y'),
                        "changelog": [],
-                       "important": [],
                        "activity": [],
                        "rating": {},
                        "comment": None,
+                       "important": [],
+                       "changelog": [],
                        }, f)
+            f.close()
     return filepath
+
+def save_day():
+    # Save the day
+    with open(load_day(), 'w') as f:
+        json.dump(st.session_state.today, f)
+        f.close()
 
 
 # Config & initialisation
 st.set_page_config(layout="wide", page_title="My Diary", initial_sidebar_state="collapsed")
 diary_container = st.container()
 page_container = st.container()
-
-# Load the day
-if 'today' in st.session_state is None:
-    st.session_state.today = dt.today()
 
 # Load the 'today' dictionary from the JSON file
 with open(load_day(), 'r') as f:
@@ -43,13 +54,14 @@ with diary_container:
         'Today is the {} welcome to your digital diary'.format(
             dt.strptime(st.session_state.date,
                         '%d-%m-%Y').strftime('%d.%m.%Y')))
+    
     # Columns for changing the date and saving the day
     col1, col2 = st.columns([1, 1])
-    col1.date_input(
+    st.session_state.date = col1.date_input(
         'If you want to change the date please do so, if not simply continue.',
-        label_visibility="collapsed", value=dt.strptime(
-            st.session_state.today['date'], '%d-%m-%Y')).strftime('%d-%m-%Y')
-    col2.button("Save the day!")
+        label_visibility="collapsed", value=st.session_state.date)
+    if col2.button("Save the day!"):
+        save_day()
 
 # Split application into tabs
 activities, rate, write = st.tabs(
@@ -65,3 +77,6 @@ with rate:
 
 with write:
     write_page.write()
+
+# Save the day
+save_day()
