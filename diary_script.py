@@ -139,10 +139,10 @@ with write:
     st.session_state.today['comment'] = st.text_area(
         label="Write here!", label_visibility='hidden',
         height=500, max_chars=1000, placeholder="Heute habe ich...")
-    if st.radio("Is this entry of special importance?",
-                options=["It's just a comment", "Contains important information"],
-                index=0):
-        st.session_state.today['important'].append('comment')
+    if st.checkbox("Contains important information"):
+        st.session_state.today['important_comment'] = True
+    else:
+        st.session_state.today['important_comment'] = False
 
 with (organize):
     # Save the day
@@ -152,8 +152,8 @@ with (organize):
             f"Day saved on {dt.now().strftime('%d-%m-%Y %H:%M:%S')}")
 
         # Create the directory if it doesn't exist
-        if not os.path.exists('tests/entries/'):
-            os.makedirs('tests/entries/')
+        if not os.path.exists('./entries/'):
+            os.makedirs('./entries/')
 
         # Save the 'today' dictionary as a JSON file
         filename = f"diary_{st.session_state.today['date'].replace('-', '')}.json"
