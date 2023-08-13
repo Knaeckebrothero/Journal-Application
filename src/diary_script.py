@@ -6,16 +6,16 @@ from pages import activities_page, rate_page, write_page
 
 
 def load_day() -> str:
-    # Load the day
-    if 'date' in st.session_state is None:
-        st.session_state.date = dt.today()
-
     # Create the directory if it doesn't exist
     if not os.path.exists('./entries/'):
         os.makedirs('./entries/')
+    
+    # Load the date from the session state
+    if 'date' not in st.session_state:
+        st.session_state['date'] = dt.today()
 
-    # Load directory
-    filename = f"diary_{st.session_state.date.strftime('%d%m%Y')}.json"
+    # Load directory and filename
+    filename = f"diary_{st.session_state['date'].strftime('%d%m%Y')}.json"
     filepath = './entries/' + filename
 
     # Create the file if it doesn't exist
@@ -45,15 +45,15 @@ diary_container = st.container()
 page_container = st.container()
 
 # Load the 'today' dictionary from the JSON file
-with open(load_day(), 'r') as f:
-    st.session_state.today = json.load(f)
+if 'today' not in st.session_state:
+    with open(load_day(), 'r') as f:
+        st.session_state.today = json.load(f)
 
 with diary_container:
-    # Main title
-    st.title(
-        'Today is the {} welcome to your digital diary'.format(
-            dt.strptime(st.session_state.date,
-                        '%d-%m-%Y').strftime('%d.%m.%Y')))
+    # Set page titel
+    st.title('Today is the {} welcome to your digital diary'.format(
+        st.session_state['date'].strftime('%d.%m.%Y')))
+
 
     # Columns for changing the date and saving the day
     col1, col2 = st.columns([1, 1])
@@ -78,5 +78,5 @@ with rate:
 with write:
     write_page.write()
 
-# Save the day after every run
+# Save changes to file on rerun
 save_day()
