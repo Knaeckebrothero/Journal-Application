@@ -2,7 +2,8 @@ import streamlit as st
 import json
 import os
 from datetime import datetime as dt
-from pages import activities_page, rate_page, write_page
+from tests.pages import rate_page, write_page
+from tests.pages import activities_page
 
 
 def load_day():
