@@ -12,8 +12,16 @@ def get_path():
     return filepath
 
 
-def new_day():
+# Load a day
+def load_day():
+    # Create the directory if it doesn't exist
+    if not os.path.exists('./entries/'):
+        os.makedirs('./entries/')
+
+    # Load directory and filename
     filepath = get_path()
+
+    # Create the file if it doesn't exist
     if not os.path.exists(filepath):
         with open(filepath, 'w') as f:
             json.dump({
@@ -33,26 +41,15 @@ def new_day():
                 "important_comment": False,
                 "changelog": [],
             }, f)
-            f.close()
+        f.close()
+
+    # Load the day
+    with open(filepath, 'r') as f:
+        st.session_state.today = json.load(f)
+    f.close()
 
 
-def load_day() -> str:
-    # Create the directory if it doesn't exist
-    if not os.path.exists('./entries/'):
-        os.makedirs('./entries/')
-
-    # Load the date from the session state
-    if 'date' not in st.session_state:
-        st.session_state['date'] = dt.today()
-
-    # Load directory and filename
-    filepath = get_path()
-
-    # Create the file if it doesn't exist
-    new_day()
-    return filepath
-
-
+# Save a day
 def save_day():
     # Save the day
     with open(get_path(), 'w') as f:
@@ -60,37 +57,36 @@ def save_day():
     f.close()
 
 
+# Main function
 if __name__ == '__main__':
     # Config & initialisation
     st.set_page_config(layout="wide", page_title="My Diary", initial_sidebar_state="collapsed")
-    diary_container = st.container()
-    page_container = st.container()
 
-    # Load the 'today' dictionary from the JSON file
-    if 'today' not in st.session_state:
-        with open(load_day(), 'r') as f:
-            st.session_state.today = json.load(f)
-        f.close()
+    # Check if the date is in session state
+    if 'date' not in st.session_state:
+        st.session_state['date'] = dt.today()
 
-    if st.session_state['date'] == st.session_state.today['date']:
-        # Save changes to file on rerun
-        save_day()
-    else:
-        new_day()
-        st.session_state.clear()
+    # Check if today is in session state
+    if 'today' not in st.session_state or None:
+        load_day()
+
+    if st.session_state['date'].strftime('%d.%m.%Y') != st.session_state.today['date']:
+        # Delete today from st.session_state and rerun script to create or load the new day
+        st.session_state.today.clear()
         st.experimental_rerun()
+    else:
+        # Save changes to file on script rerun
+        save_day()
 
+    # Set page title
+    st.title('Today is the {} welcome to your digital diary'.format(
+        st.session_state['date'].strftime('%d.%m.%Y')))
 
-    with diary_container:
-        # Set page title
-        st.title('Today is the {} welcome to your digital diary'.format(
-            st.session_state['date'].strftime('%d.%m.%Y')))
-
-        # Columns for changing the date and saving the day
-        col1, col2 = st.columns([1, 1])
-        st.session_state.date = col1.date_input(
-            'If you want to change the date please do so, if not simply continue.',
-            label_visibility="collapsed", value=st.session_state.date)
+    # Columns for changing the date and saving the day
+    col1, col2 = st.columns([1, 1])
+    st.session_state.date = col1.date_input(
+        'If you want to change the date please do so, if not simply continue.',
+        label_visibility="collapsed", value=st.session_state.date)
 
     # Split application into tabs
     activities, rate, write = st.tabs(
