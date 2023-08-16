@@ -30,10 +30,10 @@ def load_day():
                 "fell_asleep": "00:00",
                 "woke_up": "00:00",
                 "important": [],
-                "focus": 3,
-                "starting_mood": 3,
-                "ending_mood": 3,
-                "satisfaction": 3,
+                "focus": 5,
+                "starting_mood": 5,
+                "ending_mood": 5,
+                "satisfaction": 5,
                 "tags": [],
                 "focus_comment": "",
                 "start_mood_comment": "",
@@ -160,16 +160,16 @@ with rate:
 
         # Sliders
         st.session_state.today["focus"] = st.slider(
-            "Ability to stay focused throughout the day.", 1, 5,
+            "Ability to stay focused throughout the day.", 1, 10,
             value=st.session_state.today["focus"])
         st.session_state.today["starting_mood"] = st.slider(
-            "Mood at the start of the day.", 1, 5,
+            "Mood at the start of the day.", 1, 10,
             value=st.session_state.today["starting_mood"])
         st.session_state.today["ending_mood"] = st.slider(
-            "Mood at the end of the day.", 1, 5,
+            "Mood at the end of the day.", 1, 10,
             value=st.session_state.today["ending_mood"])
         st.session_state.today["satisfaction"] = st.slider(
-            "Satisfaction with what you have achieved today.", 1, 5,
+            "Satisfaction with what you have achieved today.", 1, 10,
             value=st.session_state.today["satisfaction"])
 
     with col2:
@@ -211,7 +211,7 @@ with write:
     st.header("Is there anything else you wanna mention or comment on?")
     st.session_state.today['comment'] = st.text_area(
         label="Write here!", label_visibility='hidden',
-        height=350, max_chars=1000, placeholder="Heute habe ich...",
+        height=400, max_chars=1000, placeholder="Heute habe ich...",
         value=st.session_state.today['comment'])
 
     # Checkboxes for tagging today's comment as important.
