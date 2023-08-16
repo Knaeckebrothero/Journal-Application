@@ -95,42 +95,62 @@ activities, rate, write = st.tabs(
 
 # Activities section
 with activities:
-    # Specify how demanding the activity was.
-    activity_category = st.selectbox('Tag based on cognitive demand',
-                                     ['Concentration',
-                                      'Relaxation',
-                                      'Organizational'],
-                                     key='activity_category')
+    if 'activity_start' not in st.session_state:
+        st.session_state.activity_category_default = 2
+        st.session_state.activity_description = ""
+        st.session_state.activity_start = time(0, 0)
+        st.session_state.activity_end = time(0, 0)
+        st.session_state.activity_tags = []
 
-    # Enter information about the activity
-    activity_description = st.text_input(label='Describe your activity',
-                                         key='activity_description',
-                                         placeholder='What did you do?')
-    activity_start = st.time_input(
-        'Start time', key='activity_start', value=time(0, 0))
-    activity_end = st.time_input(
-        'End time', key='activity_end', value=time(0, 0))
+    # Specify how demanding the activity was.
+    st.session_state.activity_category = st.selectbox(
+        'Tag based on cognitive demand',
+        ['Concentration',
+         'Relaxation',
+         'Organizational'],
+        key='activity_category_widget', index=st.session_state.activity_category_default)
+
+    # Specify the activity name.
+    st.session_state.activity_description = st.text_input(
+        label='Describe your activity',
+        key='activity_description_widget',
+        placeholder='What did you do?',
+        value=st.session_state.activity_description)
+
+    # Specify the start and end time of the activity.
+    st.session_state.activity_start = st.time_input(
+        'Start time', key='activity_start_widget', value=st.session_state.activity_start)
+    st.session_state.activity_end = st.time_input(
+        'End time', key='activity_end_widget', value=st.session_state.activity_end)
 
     # Tag your activity
-    activity_tags = st.multiselect(
+    st.session_state.activity_tags = st.multiselect(
         "Activity was related to",
         options=['Academic', 'Business', 'Hobbies',
                  'Breaks', 'Leisure', 'Exercise',
                  'Housekeeping', 'Personal Care', 'Administrative'],
-        key='activity_tags')
+        key='activity_tags_widget', default=st.session_state.activity_tags)
 
     # Add column for button and last activity
     col1, col2 = st.columns(2)
 
     # Button to add a new activity
     if col1.button("Add activity"):
+        # Append activity to the list
         st.session_state.today["activity"].append(
-            {"description": activity_description,
-             "start": activity_start.strftime('%H:%M:%S'),
-             "end": activity_end.strftime('%H:%M:%S'),
-             "category": activity_category,
-             "tags": activity_tags})
-        st.success("Activity added successfully!")
+            {"description": st.session_state['activity_description'],
+             "start": st.session_state['activity_start'].strftime('%H:%M'),
+             "end": st.session_state['activity_end'].strftime('%H:%M'),
+             "category": st.session_state['activity_category'],
+             "tags": st.session_state['activity_tags']})
+
+        # Reset activity input fields
+        st.session_state.activity_category_default = 2
+        st.session_state.activity_description = ""
+        st.session_state.activity_start = st.session_state['activity_end']
+        st.session_state.activity_end = time(0, 0)
+        st.session_state.activity_tags = []
+        st.experimental_rerun()
 
     # Last activity
     with col2:
