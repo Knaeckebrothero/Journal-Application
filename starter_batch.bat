@@ -1,1 +1,1 @@
-streamlit run path\diary_script.py
+streamlit run path\diary.py
