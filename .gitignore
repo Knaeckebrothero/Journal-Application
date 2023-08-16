@@ -1,5 +1,6 @@
 # Development related test or config files from development folder
 development/*
+entries/*
 
 # Yaml config files
 *.yaml
