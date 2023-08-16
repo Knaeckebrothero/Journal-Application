@@ -1,0 +1,28 @@
+{
+  "date": "14-08-2023",
+  "activity": [
+    {
+      "description": "Test",
+      "start": "00:30:00",
+      "end": "04:15:00",
+      "category": "Organizational",
+      "tags": [
+        "Hobbies",
+        "Exercise"
+      ]
+    }
+  ],
+  "important": [],
+  "focus": 3,
+  "starting_mood": 3,
+  "ending_mood": 3,
+  "satisfaction": 3,
+  "tags": [],
+  "focus_comment": "",
+  "start_mood_comment": "",
+  "end_mood_comment": "",
+  "satisfaction_comment": "",
+  "comment": "",
+  "important_comment": false,
+  "changelog": []
+}

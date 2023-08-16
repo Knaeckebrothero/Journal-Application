@@ -33,20 +33,18 @@ def load_day():
                 "ending_mood": 3,
                 "satisfaction": 3,
                 "tags": [],
-                "focus_comment": None,
-                "start_mood_comment": None,
-                "end_mood_comment": None,
-                "satisfaction_comment": None,
-                "comment": None,
+                "focus_comment": "",
+                "start_mood_comment": "",
+                "end_mood_comment": "",
+                "satisfaction_comment": "",
+                "comment": "",
                 "important_comment": False,
-                "changelog": [],
+                "changelog": []
             }, f)
-        f.close()
 
     # Load the day
     with open(filepath, 'r') as f:
         st.session_state.today = json.load(f)
-    f.close()
 
 
 # Save a day
@@ -54,7 +52,6 @@ def save_day():
     # Save the day
     with open(get_path(), 'w') as f:
         json.dump(st.session_state.today, f)
-    f.close()
 
 
 # Main function
@@ -67,16 +64,9 @@ if __name__ == '__main__':
         st.session_state['date'] = dt.today()
 
     # Check if today is in session state
-    if 'today' not in st.session_state or None:
+    if 'today' not in st.session_state or st.session_state['today'] is None:
         load_day()
-
-    if st.session_state['date'].strftime('%d.%m.%Y') != st.session_state.today['date']:
-        # Delete today from st.session_state and rerun script to create or load the new day
-        st.session_state.today.clear()
-        st.experimental_rerun()
-    else:
-        # Save changes to file on script rerun
-        save_day()
+        print(st.session_state['today']['date'] + " called")
 
     # Set page title
     st.title('Today is the {} welcome to your digital diary'.format(
@@ -84,9 +74,15 @@ if __name__ == '__main__':
 
     # Columns for changing the date and saving the day
     col1, col2 = st.columns([1, 1])
+
+    # Date input for changing the date
     st.session_state.date = col1.date_input(
         'If you want to change the date please do so, if not simply continue.',
         label_visibility="collapsed", value=st.session_state.date)
+
+    # Button to change the date and rerun the script
+    if col2.button("Save or change day"):
+        pass
 
     # Split application into tabs
     activities, rate, write = st.tabs(
@@ -94,6 +90,7 @@ if __name__ == '__main__':
          "Rate your day!",
          "Wanna mention something?"])
 
+    # Activities section
     with activities:
         # Specify how demanding the activity was.
         activity_category = st.selectbox('Tag based on cognitive demand',
@@ -140,6 +137,7 @@ if __name__ == '__main__':
         if st.button("Mark today"):
             st.session_state.today['important'].append(important_habit)
 
+    # Rate section
     with rate:
         # Sliders and diagram
         col1, col2 = st.columns(2)
@@ -151,31 +149,38 @@ if __name__ == '__main__':
 
             # Sliders
             st.session_state.today["focus"] = st.slider(
-                "Ability to stay focused throughout the day.", 1, 5, 3)
+                "Ability to stay focused throughout the day.", 1, 5,
+                value=st.session_state.today["focus"])
             st.session_state.today["starting_mood"] = st.slider(
-                "Mood at the start of the day.", 1, 5, 3)
+                "Mood at the start of the day.", 1, 5,
+                value=st.session_state.today["starting_mood"])
             st.session_state.today["ending_mood"] = st.slider(
-                "Mood at the end of the day.", 1, 5, 3)
+                "Mood at the end of the day.", 1, 5,
+                value=st.session_state.today["ending_mood"])
             st.session_state.today["satisfaction"] = st.slider(
-                "Satisfaction with what you have achieved today.", 1, 5, 3)
+                "Satisfaction with what you have achieved today.", 1, 5,
+                value=st.session_state.today["satisfaction"])
 
         with col2:
             # Subtitle and description
             st.header("Anything you wanna mention?")
 
             st.session_state.today["focus_comment"] = st.text_input(
-                "Did you feel stressed?", key='focus_comment')
+                "Did you feel stressed?", key='focus_comment',
+                value=st.session_state.today["focus_comment"])
 
             st.markdown('<br/>', unsafe_allow_html=True)
             st.session_state.today["start_mood_comment"] = st.text_input(
-                "What was responsible for this?", key='start_mood_comment')
+                "What was responsible for this?", key='start_mood_comment',
+                value=st.session_state.today["start_mood_comment"])
             st.session_state.today["end_mood_comment"] = st.text_input(
                 "What should I write here?", key='end_mood_comment',
-                label_visibility='hidden')
+                label_visibility='hidden', value=st.session_state.today["end_mood_comment"])
 
             st.markdown('<br/>', unsafe_allow_html=True)
             st.session_state.today["satisfaction_comment"] = st.text_input(
-                "What would others say?", key='satisfaction_comment')
+                "What would others say?", key='satisfaction_comment',
+                value=st.session_state.today["satisfaction_comment"])
 
         # Subtitle and description
         st.header("Tag your day using these!")
@@ -187,14 +192,28 @@ if __name__ == '__main__':
                      'friends', 'colleagues', 'family', 'partner',
                      'happy', 'sad', 'excited', 'tired', 'depressed',
                      'junk-food', 'thc', 'insomnia', 'dispute',
-                     'hot', 'cold', 'rainy'], key='tags')
+                     'hot', 'cold', 'rainy'], key='tags',
+            default=st.session_state.today["tags"])
 
+    # Write section
     with write:
         st.header("Is there anything else you wanna mention or comment on?")
         st.session_state.today['comment'] = st.text_area(
             label="Write here!", label_visibility='hidden',
-            height=500, max_chars=1000, placeholder="Heute habe ich...")
-        if st.checkbox("Contains important information"):
+            height=350, max_chars=1000, placeholder="Heute habe ich...",
+            value=st.session_state.today['comment'])
+
+        # Checkboxes for tagging today's comment as important.
+        if st.checkbox("Contains important information",
+                       value=st.session_state.today['important_comment']):
             st.session_state.today['important_comment'] = True
         else:
             st.session_state.today['important_comment'] = False
+
+    if st.session_state['date'].strftime('%d.%m.%Y') != st.session_state.today['date']:
+        # Delete today from st.session_state and rerun script to create or load the new day
+        load_day()
+        st.experimental_rerun()
+    else:
+        # Save changes to file on script rerun
+        save_day()
