@@ -57,7 +57,8 @@ def save_day():
 
 
 # Config & initialisation
-st.set_page_config(layout="wide", page_title="My Diary", initial_sidebar_state="collapsed")
+st.set_page_config(layout="wide", page_title="My Diary",
+                   initial_sidebar_state="collapsed", page_icon=":notebook:")
 
 # Check if the date is in session state
 if 'date' not in st.session_state:
