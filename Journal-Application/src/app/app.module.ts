@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RateComponent } from './rate/rate.component';
 import { CommentComponent } from './comment/comment.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSelectModule } from '@angular/material/select';
 
 // Routes
 const routes: Routes = [
@@ -37,6 +38,7 @@ const routes: Routes = [
     AppRoutingModule,
     MatListModule,
     MatIconModule,
+    MatSelectModule,
     RouterModule.forRoot(routes),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
