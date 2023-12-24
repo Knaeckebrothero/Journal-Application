@@ -19,7 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 const routes: Routes = [
   { path: 'activities', component: ActivitiesComponent },
   { path: 'rate', component: RateComponent },
-  { path: 'comment', component: CommentComponent }
+  { path: 'comment', component: CommentComponent },
+  { path: '', redirectTo: '/activities', pathMatch: 'full' }
 ];
 
 @NgModule({

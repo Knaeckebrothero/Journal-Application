@@ -9,8 +9,8 @@
   left: 1%;
   border-radius: 25px;
   z-index: 1;
-  background-color: $secondary-color;
-  color: white;
+  background-color: $accent-color;
+  color: $font-color;
 }
 
 mat-nav-list {
@@ -21,7 +21,7 @@ mat-list-item {
   cursor: pointer;
   font-size: 100%;
   line-height: normal;
-  background-color: $tertiary-color;
+  background-color: $primary-color;
   height: 50px;
   width: calc(100% - 16px);
   border-radius: 12px;
@@ -29,7 +29,7 @@ mat-list-item {
   box-sizing: border-box;
   
   &:hover {
-    color: $primary-color;
-    background-color: lighten($secondary-color, 15%);
+    color: $font-color;
+    background-color: lighten($accent-color, 15%);
   }
 }
