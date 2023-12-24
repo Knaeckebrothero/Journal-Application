@@ -1,9 +1,11 @@
 # Development related test or config files from development folder
 development/*
-entries/*
 
 # Yaml config files
 *.yaml
+
+# Environment variables
+.env
 
 # Pycharm IDE stuff
 .idea
@@ -20,7 +22,6 @@ __pycache__/
 bin/
 build/
 develop-eggs/
-dist/
 eggs/
 lib/
 lib64/
@@ -54,6 +55,7 @@ coverage.xml
 .ropeproject
 
 # Django stuff:
+*.log
 *.pot
 
 # Sphinx documentation
@@ -71,6 +73,7 @@ hs_err_pid*
 
 # JavaScript/React
 logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -94,38 +97,42 @@ typings/
 *.tgz
 .yarn-integrity
 
-# Gradle
-.gradle/
+# Compiled output
+/tmp
+/out-tsc
+/bazel-out
 
-# Eclipse
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
 .classpath
+.c9/
+*.launch
 .settings/
-
-# IntelliJ
-*.ipr
-*.iml
-*.iws
-
-# NetBeans
-nb-configuration.xml
+*.sublime-workspace
 
 # Visual Studio Code
-.vscode
-.factorypath
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
 
-# OSX
+# Miscellaneous
+/.angular
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
 .DS_Store
-
-# Vim
-*.swp
-*.swo
-
-# patch
-*.orig
-*.rej
-
-# Local environment
-.env
-
-# Plugin directory
-/.quarkus/cli/plugins/
+Thumbs.db
