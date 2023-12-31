@@ -1,17 +1,17 @@
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
+import { RouterModule, Routes } from '@angular/router';
+import { AppRoutingModule } from './app-routing.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
-import { RouterModule, Routes } from '@angular/router';
+// Components
 import { ActivitiesComponent } from './activities/activities.component';
 import { NavigationBarComponent } from './navbar/navigation-bar.component';
 import { HeadBarComponent } from './head-bar/head-bar.component';
 import { RateComponent } from './rate/rate.component';
 import { CommentComponent } from './comment/comment.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Material imports
 import { MatListModule } from '@angular/material/list';
