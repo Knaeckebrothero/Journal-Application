@@ -9,12 +9,18 @@ import { RouterModule, Routes } from '@angular/router';
 import { ActivitiesComponent } from './activities/activities.component';
 import { NavigationBarComponent } from './navbar/navigation-bar.component';
 import { HeadBarComponent } from './head-bar/head-bar.component';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
 import { RateComponent } from './rate/rate.component';
 import { CommentComponent } from './comment/comment.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+// Material imports
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // Routes
 const routes: Routes = [
@@ -39,6 +45,10 @@ const routes: Routes = [
     MatListModule,
     MatIconModule,
     MatSelectModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatInputModule,
     RouterModule.forRoot(routes),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
