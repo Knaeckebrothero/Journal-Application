@@ -1,22 +1,38 @@
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+package com.journal;
+
+import com.journal.data.Day;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("/journal/entries")
+@Path("/journal")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class DiaryEntryResource {
+public class JournalResource {
+
+    @Inject
+    JournalService service;
 
     @GET
-    public List<DiaryEntry> getAll() {
-        return DiaryEntry.listAll();
+    public List<Day> getAll() {
+        return service.getAllEntries();
     }
 
     @POST
-    public DiaryEntry add(DiaryEntry diaryEntry) {
-        diaryEntry.persist();
-        return diaryEntry;
+    public void add(Day entry) {
+        service.addEntry(entry);
     }
 
-    // Add more methods as needed
+    @DELETE
+    @Path("/{id}")
+    public void delete(@PathParam("id") String id) {
+        service.deleteEntry(id);
+    }
 }
