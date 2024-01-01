@@ -70,6 +70,7 @@ docs/_build/
 *.war
 *.ear
 hs_err_pid*
+application.properties
 
 # JavaScript/React
 logs
