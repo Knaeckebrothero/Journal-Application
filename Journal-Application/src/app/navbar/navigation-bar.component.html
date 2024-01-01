@@ -1,0 +1,16 @@
+<div *ngIf="navService.showSidenav$ | async" class="sidenav">
+    <mat-nav-list>
+        <!-- Activities page -->
+        <mat-list-item (click)="navigate('/activities')">
+            <h3>Activities</h3>
+        </mat-list-item>
+        <!-- Rate page -->
+        <mat-list-item (click)="navigate('/rate')">
+            <h3 matLine>Rate</h3>
+        </mat-list-item>
+        <!-- Comment page -->
+        <mat-list-item (click)="navigate('/comment')">
+            <h3 matLine>Comment</h3>
+        </mat-list-item>
+    </mat-nav-list>
+</div>
