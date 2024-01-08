@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { DayInterface } from './interfaces/day';
 import { ActivityInterface } from './interfaces/activity';
+import { OnInit } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DataServiceService {
+export class DataServiceService implements OnInit {
   // Private variable to store the current day
   private currentDay: DayInterface;
 
   constructor() {
-    // Initialize with a default day, or fetch from a local store
+    // Initialize with a default day
     this.currentDay = {
       date: new Date(),
       focusRating: 5,
@@ -23,6 +24,12 @@ export class DataServiceService {
       comments: [],
       activities: []
     };
+  }
+
+  // Method to initialize the service and load the current day data
+  ngOnInit() {
+    // Load the day data
+    this.loadDay();
   }
 
   // Method to load the day data (later can be updated to load from database)
