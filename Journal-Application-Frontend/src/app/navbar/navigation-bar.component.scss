@@ -1,0 +1,35 @@
+@import '../../styles/variables';
+
+.sidenav {
+  position: fixed;
+  height: auto;
+  width: max-content;
+  align-self: center;
+  top: 12%;
+  left: 1%;
+  border-radius: 25px;
+  z-index: 1;
+  background-color: $accent-color;
+  color: $font-color;
+}
+
+mat-nav-list {
+  width: 100%;
+}
+
+mat-list-item {
+  cursor: pointer;
+  font-size: 100%;
+  line-height: normal;
+  background-color: $primary-color;
+  height: 50px;
+  width: calc(100% - 16px);
+  border-radius: 12px;
+  margin: 8px;
+  box-sizing: border-box;
+  
+  &:hover {
+    color: $font-color;
+    background-color: lighten($accent-color, 15%);
+  }
+}
