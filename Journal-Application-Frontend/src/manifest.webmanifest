@@ -1,11 +1,11 @@
 {
-  "name": "Journal-Application",
-  "short_name": "Journal-Application",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "name": "Journal Application",
+  "short_name": "Diary",
+  "theme_color": "#ff4081",
+  "background_color": "#007bff",
   "display": "standalone",
   "scope": "./",
-  "start_url": "./",
+  "start_url": "./activities",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",

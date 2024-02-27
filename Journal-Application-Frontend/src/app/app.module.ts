@@ -14,7 +14,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { RateComponent } from './rate/rate.component';
 import { HeadBarComponent } from './head-bar/head-bar.component';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 
 
 // Routes
@@ -31,7 +31,7 @@ const routes: Routes = [
     NavigationBarComponent,
     ActivitiesComponent,
     RateComponent,
-    HeadBarComponent
+    HeadBarComponent,
   ],
   imports: [
     BrowserModule,
