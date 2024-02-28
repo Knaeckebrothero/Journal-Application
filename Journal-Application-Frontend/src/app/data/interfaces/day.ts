@@ -9,7 +9,7 @@ export interface DayInterface {
     endingMoodRating: Number;
     satisfactionRating: Number;
     tags: String[];
-    changelog: Date[];
+    changelog: CommentInterface[];
     comments: CommentInterface[];
     activities: ActivityInterface[];
 }

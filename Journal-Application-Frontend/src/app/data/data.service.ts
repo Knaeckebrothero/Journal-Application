@@ -7,9 +7,11 @@ import { OnInit } from '@angular/core';
   providedIn: 'root'
 })
 export class DataService implements OnInit {
+  
   // Private variable to store the current day
   private currentDay: DayInterface;
 
+  // Constructor to initialize the service
   constructor() {
     // Initialize with a default day
     this.currentDay = {
@@ -26,40 +28,56 @@ export class DataService implements OnInit {
     };
   }
 
-  // Method to initialize the service and load the current day data
+  // Method to load the day on initialization
   ngOnInit() {
     // Load the day data
     this.loadDay();
   }
 
-  // Method to load the day data (later can be updated to load from database)
-  loadDay(): void {
-    // For now, this can just load the current day or load it from localStorage
-    console.log(this.currentDay);
-    // this.currentDay = JSON.parse(localStorage.getItem('currentDay'));
+  // Update change log
+  private updateChangelog(logAction: String): void {
+    // Add the action to the changelog
+    this.currentDay.changelog.push({
+      type: "changelog",
+      timestamp: new Date(),
+      content: logAction
+    });
   }
 
-  // Method to save the day data (later can be updated to save to database)
-  public saveDay(): void {
-    // Update the changelog before saving
-    this.currentDay.changelog.push(new Date());
-    // For now, this can just log the current day or store it in localStorage
+  // Method to load the day data
+  private loadDay(): void {
+    // Add API call to get the current day data
     console.log(this.currentDay);
-    // localStorage.setItem('currentDay', JSON.stringify(this.currentDay));
+    // Update the changelog after loading
+    this.updateChangelog("loaded");
+  }
+
+  // Method to save the day data
+  private saveDay(action: String): void {
+    // Update the changelog before saving
+    this.updateChangelog(action);
+    // Add API call to save the current day data
+    console.log(this.currentDay);
   }
 
   // Add a new activity to the current day
   public addActivity(activity: ActivityInterface): void {
+    // Add the activity to the current day
     this.currentDay.activities.push(activity);
+    // Save the day
+    this.saveDay("added_activity");
   }
 
   // Add a new comment to the current day
   public addComment(comment: string, type: string = 'comment'): void {
+    // Add the comment to the current day
     this.currentDay.comments.push({
       type: 'comment',
       timestamp: new Date(),
       content: comment
     });
+    // Save the day
+    this.saveDay("added_comment");
   }
 
   /*
@@ -68,17 +86,23 @@ export class DataService implements OnInit {
   
   */
 
+  
+  /*
   // Getter for the current day
   public getDay(): DayInterface {
     return this.currentDay;
   }
 
-  /* 
   // Setter for the current day
   public setDay(newDay: DayInterface): void {
     this.currentDay = newDay;
   }
   */
+
+  // Get Activities
+  public getActivities(): ActivityInterface[] {
+    return this.currentDay.activities;
+  }
 
   // Get tags
   public getTags(): String[] {
