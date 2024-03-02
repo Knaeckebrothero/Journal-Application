@@ -3,6 +3,7 @@ import { DayInterface } from './interfaces/day';
 import { ActivityInterface } from './interfaces/activity';
 import { OnInit } from '@angular/core';
 
+// Make the service a singleton so that it can be used across the application
 @Injectable({
   providedIn: 'root'
 })
