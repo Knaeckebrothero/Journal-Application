@@ -15,7 +15,8 @@ val quarkusPlatformVersion: String by project
 dependencies {
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     implementation("io.quarkus:quarkus-mongodb-panache")
-    implementation("io.quarkus:quarkus-elytron-security-oauth2")
+    // ToDo: Configure db security
+    // implementation("io.quarkus:quarkus-elytron-security-oauth2")
     implementation("io.quarkus:quarkus-resteasy")
     implementation("io.quarkiverse.groovy:quarkus-groovy-junit5:3.4.0")
     implementation("io.quarkus:quarkus-arc")
