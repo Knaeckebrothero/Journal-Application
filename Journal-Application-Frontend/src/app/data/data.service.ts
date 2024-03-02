@@ -58,13 +58,15 @@ export class DataService implements OnInit {
     // Update the changelog before saving
     this.updateChangelog(action);
     // Add API call to save the current day data
-    console.log(this.currentDay);
+    console.log("Day saved!", this.currentDay);
   }
 
   // Add a new activity to the current day
   public addActivity(activity: ActivityInterface): void {
     // Add the activity to the current day
     this.currentDay.activities.push(activity);
+    // Log the activity
+    console.log("Activity added!");
     // Save the day
     this.saveDay("added_activity");
   }
