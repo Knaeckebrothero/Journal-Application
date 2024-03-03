@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSliderModule } from '@angular/material/slider';
 
 // Base
 import { NgModule } from '@angular/core';
@@ -58,6 +59,7 @@ const routes: Routes = [
     MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatSliderModule,
     RouterModule.forRoot(routes),
     ServiceWorkerModule.register('ngsw-worker.js', {
       registrationStrategy: 'registerWhenStable'
