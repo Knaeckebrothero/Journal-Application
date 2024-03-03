@@ -6,7 +6,8 @@ import { RateComponent } from './rate/rate.component';
 import { CommentComponent } from './comment/comment.component';
 
 // Angular Material
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';

@@ -1,15 +1,62 @@
 <div class="rate-component">
     <!-- Titel -->
-    <h3>Rate your Day</h3>
+    <h3>Rate your Day!</h3>
 
-    <mat-slider>
-        <mat-slider
-        class="example-margin"
-        [max]=10
-        [min]=1
-        [step]=1
-        [discrete]=true
-        [showTickMarks]=false>
-      <input matSliderThumb [(ngModel)]="value" #slider>
+    <!-- Starting mood slider -->
+    <mat-slider
+      [max]="10"
+      [min]="1"
+      [step]="1"
+      [discrete]=true
+      (mouseup)="onSliderRelease('startingMoodRating')"
+      (touchend)="onSliderRelease('startingMoodRating')">
+    <input matSliderThumb [(ngModel)]="startingMoodRating" #slider>
     </mat-slider>
+
+    <!-- Mid mood slider -->
+    <mat-slider
+        [max]="10"
+        [min]="1"
+        [step]="1"
+        [discrete]=true
+        (mouseup)="onSliderRelease('midMoodRating')"
+        (touchend)="onSliderRelease('midMoodRating')">
+      <input matSliderThumb [(ngModel)]="midMoodRating" #slider>
+      </mat-slider>
+
+    <!-- End mood slider -->
+    <mat-slider
+      [max]="10"
+      [min]="1"
+      [step]="1"
+      [discrete]=true
+      (mouseup)="onSliderRelease('endingMoodRating')"
+      (touchend)="onSliderRelease('endingMoodRating')">
+    <input matSliderThumb [(ngModel)]="endingMoodRating" #slider>
+    </mat-slider>
+
+    <!-- Focus slider -->
+    <mat-slider
+      [max]="10"
+      [min]="1"
+      [step]="1"
+      [discrete]=true
+      (mouseup)="onSliderRelease('focusRating')"
+      (touchend)="onSliderRelease('focusRating')">
+    <input matSliderThumb [(ngModel)]="focusRating" #slider>
+    </mat-slider>
+  
+    <!-- Satisfaction slider -->
+    <mat-slider
+      [max]="10"
+      [min]="1"
+      [step]="1"
+      [discrete]=true
+      (mouseup)="onSliderRelease('satisfactionRating')"
+      (touchend)="onSliderRelease('satisfactionRating')">
+    <input matSliderThumb [(ngModel)]="satisfactionRating" #slider>
+    </mat-slider>
+
+    <!-- Tags -->
+
 </div>
