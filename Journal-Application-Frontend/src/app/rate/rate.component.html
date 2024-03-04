@@ -57,6 +57,12 @@
     <input matSliderThumb [(ngModel)]="satisfactionRating" #slider>
     </mat-slider>
 
-    <!-- Tags -->
-
+    <!-- Activity Tag -->
+    <mat-form-field class="activity-tag">
+      <mat-label>Tag your Day!</mat-label>
+      <input type="text" placeholder="Tag me!" aria-label="Tag" matInput [(ngModel)]="tags" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of tagOptions" [value]="option">{{ option }}</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
 </div>

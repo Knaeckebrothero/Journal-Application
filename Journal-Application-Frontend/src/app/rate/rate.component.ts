@@ -14,7 +14,9 @@ export class RateComponent {
   midMoodRating: number = 5;
   endingMoodRating: number = 5;
   satisfactionRating: number = 5;
+  
   tags: string[] = [];
+  tagOptions: string[] = [];
 
   // Inject the DataService
   constructor(private dataService: DataService) {}

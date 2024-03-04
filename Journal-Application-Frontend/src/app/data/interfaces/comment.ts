@@ -1,5 +1,5 @@
 export interface CommentInterface {
-    type: String;
+    type: string;
     timestamp: Date;
-    content: String;
+    content: string;
 }

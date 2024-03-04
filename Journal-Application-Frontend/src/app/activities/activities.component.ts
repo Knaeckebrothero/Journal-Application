@@ -2,13 +2,18 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DataService } from '../data/data.service';
 import { ActivityInterface } from '../data/interfaces/activity';
+import { OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-activities',
   templateUrl: './activities.component.html',
   styleUrls: ['./activities.component.scss']
 })
-export class ActivitiesComponent {
+export class ActivitiesComponent implements OnInit{
+  // Variables
+  latestActivity: ActivityInterface = {Tag: '', Description: 'No previous activities', 
+  Demand: 99, StartTime: new Date, EndTime: new Date, WorkRelated: false};
+  tagOptions: string[] = [];
   
   // Activity form
   activityForm = new FormGroup({
@@ -20,12 +25,16 @@ export class ActivitiesComponent {
     activityWorkRelated: new FormControl(false)
   });
   
-
   // Inject the DataService
   constructor(private dataService: DataService) {}
 
-  // Variables
-  tagOptions: string[] = ['Test', 'Option', 'Bread'];
+  // Initialize the component
+  ngOnInit() {
+    // Get the latest activity
+    this.latestActivity = this.dataService.getLatestActivity();
+    // Get the tag options
+    this.tagOptions = this.dataService.getActivityTagOptions();
+  }  
 
   // Method to add a new activity
   addActivity() {
@@ -44,5 +53,17 @@ export class ActivitiesComponent {
   
     // Use the DataService to add the new activity
     this.dataService.addActivity(activity);
+
+    // Update the latest activity
+    this.latestActivity = activity;
+
+    // Reset the form
+    this.activityForm.reset();
+
+    /*
+    // Set the start time
+    this.activityForm.controls.activityStartTime.setValue(
+      activity.EndTime.toDateString()); // Fina a way to use acuall date input fields
+    */
   }
 }

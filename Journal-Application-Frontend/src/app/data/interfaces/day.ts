@@ -3,12 +3,12 @@ import { CommentInterface } from './comment';
 
 export interface DayInterface {
     date: Date;
-    focusRating: Number;
-    startingMoodRating: Number;
-    midMoodRating: Number;
-    endingMoodRating: Number;
-    satisfactionRating: Number;
-    tags: String[];
+    focusRating: number;
+    startingMoodRating: number;
+    midMoodRating: number;
+    endingMoodRating: number;
+    satisfactionRating: number;
+    tags: string[];
     changelog: CommentInterface[];
     comments: CommentInterface[];
     activities: ActivityInterface[];

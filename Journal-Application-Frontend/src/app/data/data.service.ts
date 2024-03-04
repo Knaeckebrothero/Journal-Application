@@ -11,6 +11,8 @@ export class DataService implements OnInit {
   
   // Private variable to store the current day
   private currentDay: DayInterface;
+  private activityTagOptions: string[] = [];
+  private dayTagOptions: string[] = [];
 
   // Constructor to initialize the service
   constructor() {
@@ -36,7 +38,7 @@ export class DataService implements OnInit {
   }
 
   // Update change log
-  private updateChangelog(logAction: String): void {
+  private updateChangelog(logAction: string): void {
     // Add the action to the changelog
     this.currentDay.changelog.push({
       type: "changelog",
@@ -53,8 +55,16 @@ export class DataService implements OnInit {
     this.updateChangelog("loaded");
   }
 
+  private loadTagOptions(): void {
+    // Add API call to get the current day data
+    this.activityTagOptions = ['Test1', 'Test2', 'Test3']
+    console.log('load activityTagOptions');
+    this.dayTagOptions = ['Test1', 'Test2', 'Test3']
+    console.log('load dayTagOptions');
+  }
+
   // Method to save the day data
-  private saveDay(action: String): void {
+  private saveDay(action: string): void {
     // Update the changelog before saving
     this.updateChangelog(action);
     // Add API call to save the current day data
@@ -83,37 +93,39 @@ export class DataService implements OnInit {
     this.saveDay("added_comment");
   }
 
+  // Get latest activity
+  public getLatestActivity(): ActivityInterface {
+    // Check if there are any activities
+    if (this.currentDay.activities && this.currentDay.activities.length > 0) {
+      // Return the latest activity
+      return this.currentDay.activities[this.currentDay.activities.length - 1];
+    } else {
+      // Create an empty date with time 00:00
+      let emptyDate = new Date();
+      emptyDate.setHours(0, 0);
+
+      // Return a default activity with description and empty date
+      return {Tag: '', Description: 'No previous activities', Demand: 99, 
+        StartTime: emptyDate, EndTime: emptyDate, WorkRelated: false};
+    }
+  }
+
   /*
-  
   Getters and setters for the current day
-  
   */
 
-  
-  /*
-  // Getter for the current day
-  public getDay(): DayInterface {
-    return this.currentDay;
+  // Get activity tag options
+  public getActivityTagOptions(): string[] {
+    return this.activityTagOptions;
   }
 
-  // Setter for the current day
-  public setDay(newDay: DayInterface): void {
-    this.currentDay = newDay;
-  }
-  */
-
-  // Get Activities
-  public getActivities(): ActivityInterface[] {
-    return this.currentDay.activities;
-  }
-
-  // Get tags
-  public getTags(): String[] {
-    return this.currentDay.tags;
+  // Get day tag options
+  public getDayTagOptions(): string[] {
+    return this.dayTagOptions;
   }
 
   // Set tags
-  public setTags(tags: String[]): void {
+  public setTags(tags: string[]): void {
     this.currentDay.tags = tags;
   }
 }

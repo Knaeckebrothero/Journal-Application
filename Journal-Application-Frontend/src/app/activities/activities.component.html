@@ -2,6 +2,13 @@
     <!-- Titel -->
     <h3>State your Activity</h3>
 
+    <!-- Display info about the lates activity -->
+    <div class="latest-activity">
+        <h4>Latest Activity</h4>
+        <p>{{ latestActivity.Description }} - {{ latestActivity.EndTime | date:'HH:mm' }}</p>
+    </div>
+
+    <!-- Activity Formgroup -->
     <form [formGroup]="activityForm" (ngSubmit)="addActivity()">
         <!-- Activity Start -->
         <mat-form-field class="activity-start">
